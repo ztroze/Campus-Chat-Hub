@@ -12,7 +12,7 @@ import BadgerLandingScreen from './components/BadgerLandingScreen';
 import BadgerChatroomScreen from './components/BadgerChatroomScreen';
 import BadgerRegisterScreen from './components/BadgerRegisterScreen';
 import { Alert } from 'react-native';
-
+import BadgerLogoutScreen from './components/BadgerLogoutScreen';
 
 const ChatDrawer = createDrawerNavigator();
 
@@ -24,8 +24,18 @@ export default function App() {
 
   useEffect(() => {
     // hmm... maybe I should load the chatroom names here
-    setChatrooms(["Hello", "World"]) // for example purposes only!
+    fetch("https://cs571.org/s23/hw10/api/chatroom", {
+      headers: {
+        "X-CS571-ID": "bid_de8668351fa6f5b13671"
+      }
+    })
+    .then(res => res.json())
+    .then(data => setChatrooms(data))
+    .catch(e => console.error(e));
+    // setChatrooms(["Hello", "World"]) // for example purposes only!
   }, []);
+
+  // console.log(chatrooms);
 
   function handleLogin(username, password) {
     // hmm... maybe this is helpful!
@@ -57,8 +67,12 @@ export default function App() {
       return null;
     })
     .then(data => {
+      // console.log(data.token);
       if (data !== null) SecureStore.setItemAsync("token", data.token);
-    });
+      // setToken(data.token);
+      // console.log(data.token)
+    })
+    .catch(e => console.error(e));
     // setIsLoggedIn(true); // I should really do a fetch to login first!
   };
 
@@ -106,9 +120,10 @@ export default function App() {
       return null;
     })
     .then(data => {
-      console.log(data.token);
+      // console.log(data.token);
       if (data !== null) SecureStore.setItemAsync("token", data.token);
-    });
+    })
+    .catch(e => console.error(e));
     // setIsLoggedIn(true); // I should really do a fetch to register first!
   }
 
@@ -120,10 +135,11 @@ export default function App() {
           {
             chatrooms.map(chatroom => {
               return <ChatDrawer.Screen key={chatroom} name={chatroom}>
-                {(props) => <BadgerChatroomScreen name={chatroom}/>}
+                {(props) => <BadgerChatroomScreen {...props} {...chatroom} name={chatroom} />}
               </ChatDrawer.Screen>
             })
           }
+          <ChatDrawer.Screen name="Logout" component={BadgerLogoutScreen} />
         </ChatDrawer.Navigator>
       </NavigationContainer>
     );
