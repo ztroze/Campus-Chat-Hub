@@ -25,7 +25,7 @@ function BadgerRegisterScreen(props) {
         ></TextInput>
         <Text>Confirm Password</Text>
         <TextInput
-            placeholder="Enter username"
+            placeholder="Repeat password"
             onChangeText={text => setRepeatPassword(text)}
             secureTextEntry={true}
             value={repeatPassword}

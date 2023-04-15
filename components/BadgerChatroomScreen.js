@@ -103,6 +103,7 @@ function BadgerChatroomScreen(props) {
             })
         }
     </ScrollView>
+    { !props.isGuest &&
     <View style={styles.buttons}>
         <Button
             title="Add Post"
@@ -113,6 +114,7 @@ function BadgerChatroomScreen(props) {
             onPress={getMessages}
         ></Button>
     </View>
+    }
     <Modal
         animationType="slide"
         transparent={true}
