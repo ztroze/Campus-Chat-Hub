@@ -27,6 +27,7 @@ function BadgerLoginScreen(props) {
             props.handleLogin(username, password);
         }} />
         <Button color="grey" title="Signup" onPress={() => props.setIsRegistering(true)} />
+        <Button color="grey" title="Continue As Guest" onPress={() => props.setIsRegistering(true)} />
     </View>;
 }
 

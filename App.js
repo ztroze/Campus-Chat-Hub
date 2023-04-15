@@ -18,9 +18,10 @@ const ChatDrawer = createDrawerNavigator();
 
 export default function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [chatrooms, setChatrooms] = useState([]);
+  const [isGuest, setIsGuest] = useState(false);
 
   useEffect(() => {
     // hmm... maybe I should load the chatroom names here
@@ -127,6 +128,12 @@ export default function App() {
     // setIsLoggedIn(true); // I should really do a fetch to register first!
   }
 
+  function handleLogout() {
+    SecureStore.deleteItemAsync("token");
+    setIsLoggedIn(false);
+    // Alert.alert("Pressed logout!");
+  };
+
   if (isLoggedIn) {
     return (
       <NavigationContainer>
@@ -139,7 +146,14 @@ export default function App() {
               </ChatDrawer.Screen>
             })
           }
-          <ChatDrawer.Screen name="Logout" component={BadgerLogoutScreen} />
+          <ChatDrawer.Screen name="Logout" 
+            children={() => <BadgerLogoutScreen 
+            handleLogout={handleLogout} />} 
+            options={
+              {drawerItemStyle: {
+                backgroundColor: "#c6cbef"
+              }}}
+          />
         </ChatDrawer.Navigator>
       </NavigationContainer>
     );
