@@ -83,7 +83,7 @@ export default function App() {
         // console.log(username);
         // console.log(password);
         // console.log(repeatPassword);
-        if (password.length === 0) {
+        if (password.length === 0 || repeatPassword.length === 0) {
             Alert.alert("Please enter a password!");
             return;
         }
